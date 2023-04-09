@@ -187,11 +187,11 @@
                                 </div>
                             </div>
                             {{-- OPSI ADMIN DESA --}}
-                            <div data-parent="3" style="display: none;" class="hide">
+                            <div data-parent="3" style="display: none;">
                                 <div class="form-group row">
                                     <label for="province" class="col-sm-2 col-form-label">Provinsi</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="province_id" id="province-3">
+                                        <select class="form-control" name="province_id" id="province-3" >
                                             <option value="">Pilih Provinsi</option>
                                             @foreach ($data['data'] as $item)
                                                 <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -349,14 +349,20 @@
                 if ($(this).val() === "") {
                     $("[data-parent]").hide();
                 } else {
-                    let selected = $(this).val();
+                    var selected = $(this).val();
 
                     //show input
-                    $("div[data-parent='" + selected + "']").show().siblings("[data-parent]").hide();
+                    var selectedparent = $("div[data-parent='" + selected + "']");
+                    selectedparent.show().siblings("[data-parent]").hide();
+
+                    //remove disabled to every input in selectedparent
+                    selectedparent.find("select").removeAttr("disabled");
+                    //disabled input other input that not in selectedparent
+                    selectedparent.siblings("[data-parent]").find("select").attr("disabled", "disabled");
 
                     //Ajax
                     $('#province-' + selected).on('change', function() {
-                        let province_id = $('#province-' + selected).val();
+                        var province_id = $('#province-' + selected).val();
                         $.ajax({
                             type: "POST",
                             url: "{{ route('getRegency') }}",
@@ -374,7 +380,7 @@
                         })
                     })
                     $('#regency-' + selected).on('change', function() {
-                        let regency_id = $('#regency-' + selected).val();
+                        var regency_id = $('#regency-' + selected).val();
 
                         $.ajax({
                             type: "POST",
@@ -392,7 +398,7 @@
                         })
                     })
                     $('#district-' + selected).on('change', function() {
-                        let district_id = $('#district-' + selected).val();
+                        var district_id = $('#district-' + selected).val();
 
                         $.ajax({
                             type: "POST",

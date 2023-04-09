@@ -227,13 +227,17 @@ class Admin extends Controller
 
     public function getRegency(Request $request)
     {
-        $regencies = Regency::where('province_id', $request->province_id)->get();
+        $province_id = $request->province_id;
+
+        $regencies = Regency::where('province_id', $province_id)->get();
 
         $option = "<option>Pilih Kabupaten/Kota</option>";
         foreach ($regencies as $kabupaten) {
             $option .= "<option value='$kabupaten->id'>$kabupaten->name</option>";
         }
         echo $option;
+
+        // return redirect()->route('prosesTambahAdmin', ['province_id' => $province_id]);
     }
 
     public function getDistrict(Request $request)
@@ -272,79 +276,212 @@ class Admin extends Controller
             'role_id' => 'required',
         ]);
 
-        // $client = new Client();
-        // $response = $client->request('POST', 'http://localhost/wisata/public/api/tambah-admin', [
-        //     'form_params' => [
-        //         'name' => $request->name,
-        //         'email' => $request->email,
-        //         'password' => $request->password,
-        //         'role_id' => $request->role_id,
-        //         'province_id' => $request->province_id,
-        //         'regency_id' => $request->regency_id,
-        //         'district_id' => $request->district_id,
-        //         'village_id' => $request->village_id,
-        //         'phone' => $request->phone,
-        //     ]
-        // ]);
-        // $statusCode = $response->getStatusCode();
-        // $body = $response->getBody();
-
-        // $data = json_decode($body, true);
-
-        if ($request->role_id == 2) {
-            $data = User::create([
+        $client = new Client();
+        $response = $client->request('POST', 'http://localhost/wisata/public/api/tambah-admin', [
+            'form_params' => [
                 'name' => $request->name,
                 'email' => $request->email,
-                'province_id' => $request->province_id,
-                'regency_id' => $request->regency_id,
-                'password' => bcrypt($request->password),
-                'phone' => $request->phone,
+                'password' => $request->password,
                 'role_id' => $request->role_id,
-                'edit_admin_desa' => '1',
-                'approve_wisata' => '1',
-                'tambah_edit_admin_destinasi' => '0',
-                'mengajukan_destinasi' => '0',
-                'konfirmasi_tiket' => '0',
-            ]);
-            return dd($data);
-        } else if ($request->role_id == 3) {
-            $data = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
                 'province_id' => $request->province_id,
                 'regency_id' => $request->regency_id,
                 'district_id' => $request->district_id,
                 'village_id' => $request->village_id,
-                'password' => bcrypt($request->password),
                 'phone' => $request->phone,
-                'role_id' => $request->role_id,
-                'edit_admin_desa' => '1',
-                'approve_wisata' => '1',
-                'tambah_edit_admin_destinasi' => '0',
-                'mengajukan_destinasi' => '0',
-                'konfirmasi_tiket' => '0',
-            ]);
-            return dd($data);
-        } else {
-            $data = User::create([
+            ]
+        ]);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function editAdmin($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/admin/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        $response1 = $client->request('GET', 'http://localhost/wisata/public/api/province');
+        $statusCode1 = $response1->getStatusCode();
+        $body1 = $response1->getBody();
+
+        $data1 = json_decode($body1, true);
+
+        return view('superadmin.editAdmin', ['data' => $data, 'data1' => $data1]);
+    }
+
+    public function prosesEditAdmin(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
+            // English uppercase characters (A – Z)
+            // English lowercase characters (a – z)
+            // Base 10 digits (0 – 9)
+            // Non-alphanumeric (For example: !, $, #, or %)
+            'phone' => 'required|numeric|digits_between:10,13',
+            'role_id' => 'required',
+        ]);
+
+        $client = new Client();
+        $response = $client->request('PUT', 'http://localhost/wisata/public/api/edit-admin/' . $id, [
+            'form_params' => [
                 'name' => $request->name,
                 'email' => $request->email,
+                'password' => $request->password,
+                'role_id' => $request->role_id,
                 'province_id' => $request->province_id,
                 'regency_id' => $request->regency_id,
                 'district_id' => $request->district_id,
                 'village_id' => $request->village_id,
-                'password' => bcrypt($request->password),
                 'phone' => $request->phone,
-                'role_id' => $request->role_id,
-                'edit_admin_desa' => '1',
-                'approve_wisata' => '1',
-                'tambah_edit_admin_destinasi' => '0',
-                'mengajukan_destinasi' => '0',
-                'konfirmasi_tiket' => '0',
-            ]);
-            return dd($data);
-        }
-        // return redirect('/superadmin/daftar-admin');
+            ]
+        ]);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function hapusAdmin($id)
+    {
+        $client = new Client();
+        $response = $client->request('DELETE', 'http://localhost/wisata/public/api/hapus-admin/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function nonaktifEditAdminDesa($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/nonaktif-edit-admin-desa/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function aktifEditAdminDesa($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/aktif-edit-admin-desa/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function nonaktifApproveWisata($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/nonaktif-approve-wisata/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function aktifApproveWisata($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/aktif-approve-wisata/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function nonaktifTambahEditAdminDestinasi($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/nonaktif-tambah-edit-admin-destinasi/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function aktifTambahEditAdminDestinasi($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/aktif-tambah-edit-admin-destinasi/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function nonaktifMengajukanDestinasi($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/nonaktif-mengajukan-destinasi/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function aktifMengajukanDestinasi($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/aktif-mengajukan-destinasi/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function nonaktifKonfirmasiTiket($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/nonaktif-konfirmasi-tiket/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
+    }
+
+    public function aktifKonfirmasiTiket($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/aktif-konfirmasi-tiket/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/superadmin/daftar-admin');
     }
 
     public function tambahKabupaten($id)

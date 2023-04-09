@@ -152,7 +152,104 @@ class AdminApi extends Controller
         ]);
 
 
-        return new FormatApi(true, 'Admin Kabupaten Berhasil Ditambahkan', $add);
+        return new FormatApi(true, 'Admin Kabupaten Berhasil Ditambahkan', $request->province_id, $add);
+    }
+
+    public function hapusAdmin($id)
+    {
+        $hapus = User::where('id', $id)->delete();
+
+        return new FormatApi(true, 'Admin Berhasil Dihapus', $hapus);
+    }
+
+    public function nonaktifEditAdminDesa($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'edit_admin_desa' => '0',
+        ]);
+
+        return new FormatApi(true, 'Edit Admin Desa Berhasil Dinonaktifkan', $edit);
+    }
+
+    public function aktifEditAdminDesa($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'edit_admin_desa' => '1',
+        ]);
+
+        return new FormatApi(true, 'Edit Admin Desa Berhasil Diaktifkan', $edit);
+    }
+
+    public function nonaktifApproveWisata($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'approve_wisata' => '0',
+        ]);
+
+        return new FormatApi(true, 'Approve Wisata Berhasil Dinonaktifkan', $edit);
+    }
+
+    public function aktifApproveWisata($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'approve_wisata' => '1',
+        ]);
+
+        return new FormatApi(true, 'Approve Wisata Berhasil Diaktifkan', $edit);
+    }
+
+    public function nonaktifTambahEditAdminDestinasi($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'tambah_edit_admin_destinasi' => '0',
+        ]);
+
+        return new FormatApi(true, 'Tambah Edit Admin Destinasi Berhasil Dinonaktifkan', $edit);
+    }
+
+    public function aktifTambahEditAdminDestinasi($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'tambah_edit_admin_destinasi' => '1',
+        ]);
+
+        return new FormatApi(true, 'Tambah Edit Admin Destinasi Berhasil Diaktifkan', $edit);
+    }
+
+    public function nonaktifMengajukanDestinasi($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'mengajukan_destinasi' => '0',
+        ]);
+
+        return new FormatApi(true, 'Mengajukan Destinasi Berhasil Dinonaktifkan', $edit);
+    }
+
+    public function aktifMengajukanDestinasi($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'mengajukan_destinasi' => '1',
+        ]);
+
+        return new FormatApi(true, 'Mengajukan Destinasi Berhasil Diaktifkan', $edit);
+    }
+
+    public function nonaktifKonfirmasiTiket($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'konfirmasi_tiket' => '0',
+        ]);
+
+        return new FormatApi(true, 'Konfirmasi Tiket Berhasil Dinonaktifkan', $edit);
+    }
+
+    public function aktifKonfirmasiTiket($id)
+    {
+        $edit = User::where('id', $id)->update([
+            'konfirmasi_tiket' => '1',
+        ]);
+
+        return new FormatApi(true, 'Konfirmasi Tiket Berhasil Diaktifkan', $edit);
     }
 
     public function adminKabupaten()

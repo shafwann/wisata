@@ -186,9 +186,10 @@
                                         <th>Nomor Telepon</th>
                                         <th>Edit Admin Desa</th>
                                         <th>Approve Wisata</th>
-                                        <th>Tambah & Edit Admin Destinasi</th>
-                                        <th>Mengajukan Destinasi</th>
+                                        <th>Tambah & Edit<br>Admin Destinasi</th>
+                                        <th>Mengajukan<br>Destinasi</th>
                                         <th>Konfirmasi Tiket</th>
+                                        <th>Tools</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -201,30 +202,46 @@
                                                     <td>{{ $item['email'] }}</td>
                                                     <td>{{ $item['phone'] }}</td>
                                                     @if ($item['edit_admin_desa'] == '1')
-                                                        <td>Ya</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/nonaktifkan-edit-admin-desa/' . $item['id']) }}"
+                                                                class="btn btn-outline-success">Aktif</a></td>
                                                     @else
-                                                        <td>Tidak</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/aktifkan-edit-admin-desa/' . $item['id']) }}"
+                                                                class="btn btn-outline-danger">Nonaktif</a></td>
                                                     @endif
                                                     @if ($item['approve_wisata'] == '1')
-                                                        <td>Ya</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/nonaktifkan-approve-wisata/' . $item['id']) }}"
+                                                                class="btn btn-outline-success">Aktif</a></td>
                                                     @else
-                                                        <td>Tidak</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/aktifkan-approve-wisata/' . $item['id']) }}"
+                                                                class="btn btn-outline-danger">Nonaktif</a></td>
                                                     @endif
                                                     @if ($item['tambah_edit_admin_destinasi'] == '1')
-                                                        <td>Ya</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/nonaktifkan-tambah-edit-admin-destinasi/' . $item['id']) }}"
+                                                                class="btn btn-outline-success">Aktif</a></td>
                                                     @else
-                                                        <td>Tidak</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/aktifkan-tambah-edit-admin-destinasi/' . $item['id']) }}"
+                                                                class="btn btn-outline-danger">Nonaktif</a></td>
                                                     @endif
                                                     @if ($item['mengajukan_destinasi'] == '1')
-                                                        <td>Ya</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/nonaktifkan-mengajukan-destinasi/' . $item['id']) }}"
+                                                                class="btn btn-outline-success">Aktif</a></td>
                                                     @else
-                                                        <td>Tidak</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/aktifkan-mengajukan-destinasi/' . $item['id']) }}"
+                                                                class="btn btn-outline-danger">Nonaktif</a></td>
                                                     @endif
                                                     @if ($item['konfirmasi_tiket'] == '1')
-                                                        <td>Ya</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/nonaktifkan-konfirmasi-tiket/' . $item['id']) }}"
+                                                                class="btn btn-outline-success">Aktif</a></td>
                                                     @else
-                                                        <td>Tidak</td>
+                                                        <td><a href="{{ url('superadmin/daftar-admin/aktifkan-konfirmasi-tiket/' . $item['id']) }}"
+                                                                class="btn btn-outline-danger">Nonaktif</a></td>
                                                     @endif
+                                                    <td>
+                                                        <a href="{{ url('superadmin/daftar-admin/edit/' . $item['id']) }}"
+                                                            class="btn btn-primary">Edit</a>
+                                                        <a href="{{ url('superadmin/daftar-admin/hapus/' . $item['id']) }}"
+                                                            class="btn btn-danger">Hapus</a>
+                                                    </td>
                                                 </tr>
                                             @endif
                                         @endforeach

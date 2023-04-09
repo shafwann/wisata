@@ -40,13 +40,30 @@ Route::middleware(['auth', 'superadmin'])->group(
         Route::get('/superadmin/daftar-admin', [Admin::class, 'admin']);
         Route::get('/superadmin/daftar-admin/tambah', [Admin::class, 'tambahAdmin']);
         Route::post('/superadmin/daftar-admin/proses-tambah', [Admin::class, 'prosesTambahAdmin'])->name('prosesTambahAdmin');
+        Route::get('/superadmin/daftar-admin/edit/{id}', [Admin::class, 'editAdmin']);
+        Route::put('/superadmin/daftar-admin/proses-edit/{id}', [Admin::class, 'prosesEditAdmin']);
+        Route::get('/superadmin/daftar-admin/hapus/{id}', [Admin::class, 'hapusAdmin']);
+        // aktif nonaktif
+        Route::get('/superadmin/daftar-admin/nonaktifkan-edit-admin-desa/{id}', [Admin::class, 'nonaktifEditAdminDesa']);
+        Route::get('/superadmin/daftar-admin/aktifkan-edit-admin-desa/{id}', [Admin::class, 'aktifEditAdminDesa']);
+        Route::get('/superadmin/daftar-admin/nonaktifkan-approve-wisata/{id}', [Admin::class, 'nonaktifApproveWisata']);
+        Route::get('/superadmin/daftar-admin/aktifkan-approve-wisata/{id}', [Admin::class, 'aktifApproveWisata']);
+        Route::get('/superadmin/daftar-admin/nonaktifkan-tambah-edit-admin-destinasi/{id}', [Admin::class, 'nonaktifTambahEditAdminDestinasi']);
+        Route::get('/superadmin/daftar-admin/aktifkan-tambah-edit-admin-destinasi/{id}', [Admin::class, 'aktifTambahEditAdminDestinasi']);
+        Route::get('/superadmin/daftar-admin/nonaktifkan-mengajukan-destinasi/{id}', [Admin::class, 'nonaktifMengajukanDestinasi']);
+        Route::get('/superadmin/daftar-admin/aktifkan-mengajukan-destinasi/{id}', [Admin::class, 'aktifMengajukanDestinasi']);
+        Route::get('/superadmin/daftar-admin/nonaktifkan-konfirmasi-tiket/{id}', [Admin::class, 'nonaktifKonfirmasiTiket']);
+        Route::get('/superadmin/daftar-admin/aktifkan-konfirmasi-tiket/{id}', [Admin::class, 'aktifKonfirmasiTiket']);
+
         // Kabupaten
+        // -- dihilankan karena sudah ada di IndoRegion
         Route::get('/superadmin/daftar-kabupaten', [Admin::class, 'provinsi']);
         Route::get('/superadmin/daftar-kabupaten/{id}', [Admin::class, 'kabupaten']);
         Route::get('/superadmin/daftar-kecamatan/{id}', [Admin::class, 'kecamatan']);
         Route::get('/superadmin/daftar-desa/{id}', [Admin::class, 'desa']);
         Route::get('/superadmin/daftar-kabupaten/proses-tambah-kabupaten/{id}', [Admin::class, 'tambahKabupaten']);
         Route::get('/superadmin/daftar-desa', [Admin::class, 'desa']);
+        // --
         Route::get('/superadmin/daftar-destinasi', [Admin::class, 'destinasi']);
         // Kategori
         Route::get('/superadmin/kategori', [Admin::class, 'kategori']);

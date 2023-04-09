@@ -29,6 +29,20 @@ Route::put('/proses-reset-password/{id}', [AuthenticateApi::class, 'prosesResetP
 Route::get('/role', [AdminApi::class, 'role']);
 Route::post('/tambah-admin', [AdminApi::class, 'tambahAdmin']);
 Route::post('/tambah-kabupaten', [AdminApi::class, 'tambahKabupaten']);
+
+Route::delete('/hapus-admin/{id}', [AdminApi::class, 'hapusAdmin']);
+
+Route::get('/nonaktif-edit-admin-desa/{id}', [AdminApi::class, 'nonaktifEditAdminDesa']);
+Route::get('/aktif-edit-admin-desa/{id}', [AdminApi::class, 'aktifEditAdminDesa']);
+Route::get('/nonaktif-approve-wisata/{id}', [AdminApi::class, 'nonaktifApproveWisata']);
+Route::get('/aktif-approve-wisata/{id}', [AdminApi::class, 'aktifApproveWisata']);
+Route::get('/nonaktif-tambah-edit-admin-destinasi/{id}', [AdminApi::class, 'nonaktifTambahEditAdminDestinasi']);
+Route::get('/aktif-tambah-edit-admin-destinasi/{id}', [AdminApi::class, 'aktifTambahEditAdminDestinasi']);
+Route::get('/nonaktif-mengajukan-destinasi/{id}', [AdminApi::class, 'nonaktifMengajukanDestinasi']);
+Route::get('/aktif-mengajukan-destinasi/{id}', [AdminApi::class, 'aktifMengajukanDestinasi']);
+Route::get('/nonaktif-konfirmasi-tiket/{id}', [AdminApi::class, 'nonaktifKonfirmasiTiket']);
+Route::get('/aktif-konfirmasi-tiket/{id}', [AdminApi::class, 'aktifKonfirmasiTiket']);
+
 Route::get('/user', [AdminApi::class, 'user']);
 Route::get('/admin', [AdminApi::class, 'admin']);
 Route::get('/admin-count', [AdminApi::class, 'adminCount']);
