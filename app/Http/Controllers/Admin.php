@@ -11,6 +11,7 @@ use App\Models\Province;
 use App\Models\Regency;
 use App\Models\District;
 use App\Models\Village;
+use Illuminate\Support\Facades\Auth;
 
 class Admin extends Controller
 {
@@ -131,6 +132,8 @@ class Admin extends Controller
 
         $role = json_decode($body1, true);
 
+        // dd($data);
+
         return view('superadmin.admin', ['admin' => $data], ['role' => $role]);
     }
 
@@ -236,8 +239,6 @@ class Admin extends Controller
             $option .= "<option value='$kabupaten->id'>$kabupaten->name</option>";
         }
         echo $option;
-
-        // return redirect()->route('prosesTambahAdmin', ['province_id' => $province_id]);
     }
 
     public function getDistrict(Request $request)
@@ -510,15 +511,111 @@ class Admin extends Controller
         // dd($data);
     }
 
+    // ADMIN KABUPATEN
     public function adminKabupaten()
     {
+        // $client = new Client();
+        // $response = $client->request('GET', 'http://localhost/wisata/public/api/admin-kabupaten');
+        // $statusCode = $response->getStatusCode();
+        // $body = $response->getBody();
+
+        // $user = json_decode($body, true);
+
+        return view('adminkabupaten.dashboard');
+        // return view('adminkabupaten.dashboard', ['user' => $user]);
+    }
+
+    public function destinasiAdminKabupaten()
+    {
         $client = new Client();
-        $response = $client->request('GET', 'http://localhost/wisata/public/api/admin-kabupaten');
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/destinasi');
         $statusCode = $response->getStatusCode();
         $body = $response->getBody();
 
-        $user = json_decode($body, true);
+        $destinasi = json_decode($body, true);
 
-        return view('adminkabupaten.dashboard', ['user' => $user]);
+        $response1 = $client->request('GET', 'http://localhost/wisata/public/api/kategori');
+        $statusCode1 = $response1->getStatusCode();
+        $body1 = $response1->getBody();
+
+        $kategori = json_decode($body1, true);
+
+        $response2 = $client->request('GET', 'http://localhost/wisata/public/api/district');
+        $statusCode2 = $response2->getStatusCode();
+        $body2 = $response2->getBody();
+
+        $kecamatan = json_decode($body2, true);
+
+        $response3 = $client->request('GET', 'http://localhost/wisata/public/api/village');
+        $statusCode3 = $response3->getStatusCode();
+        $body3 = $response3->getBody();
+
+        $desa = json_decode($body3, true);
+
+        $response4 = $client->request('GET', 'http://localhost/wisata/public/api/regency');
+        $statusCode4 = $response4->getStatusCode();
+        $body4 = $response4->getBody();
+
+        $kabupaten = json_decode($body4, true);
+
+        return view('adminkabupaten.destinasi', ['destinasi' => $destinasi, 'kategori' => $kategori, 'kabupaten' => $kabupaten, 'kecamatan' => $kecamatan, 'desa' => $desa]);
+    }
+
+    // ADMIN DESA
+    public function adminDesa()
+    {
+        // $client = new Client();
+        // $response = $client->request('GET', 'http://localhost/wisata/public/api/admin-desa');
+        // $statusCode = $response->getStatusCode();
+        // $body = $response->getBody();
+
+        // $user = json_decode($body, true);
+
+        return view('admindesa.dashboard');
+    }
+
+    public function destinasiAdminDesa()
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/destinasi');
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $destinasi = json_decode($body, true);
+
+        $response1 = $client->request('GET', 'http://localhost/wisata/public/api/kategori');
+        $statusCode1 = $response1->getStatusCode();
+        $body1 = $response1->getBody();
+
+        $kategori = json_decode($body1, true);
+
+        // dd($destinasi);
+        // $destinasi = Auth::where('village_id', $data['data']->village_id)->get();
+
+        return view('admindesa.destinasi', ['destinasi' => $destinasi, 'kategori' => $kategori]);
+    }
+
+    public function approveDestinasiAdminDesa($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/approve-destinasi-admin-desa/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/admin-desa/destinasi');
+    }
+
+    public function rejectDestinasiAdminDesa($id)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost/wisata/public/api/reject-destinasi-admin-desa/' . $id);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        return redirect('/admin-desa/destinasi');
     }
 }

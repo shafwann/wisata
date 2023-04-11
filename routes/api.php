@@ -46,8 +46,12 @@ Route::get('/aktif-konfirmasi-tiket/{id}', [AdminApi::class, 'aktifKonfirmasiTik
 Route::get('/user', [AdminApi::class, 'user']);
 Route::get('/admin', [AdminApi::class, 'admin']);
 Route::get('/admin-count', [AdminApi::class, 'adminCount']);
+
 Route::get('/admin-kabupaten', [AdminApi::class, 'adminKabupaten']);
 Route::get('/admin-kabupaten-spec/{id}', [AdminApi::class, 'adminKabupatenSpec']);
+
+Route::get('/destinasi', [AdminApi::class, 'destinasi']);
+
 Route::get('/kategori', [AdminApi::class, 'kategori']);
 Route::get('/kategori/{id}', [AdminApi::class, 'getKategori']);
 Route::post('/tambah-kategori', [AdminApi::class, 'tambahKategori']);
@@ -56,3 +60,9 @@ Route::put('/edit-kategori/{id}', [AdminApi::class, 'editKategori']);
 
 
 Route::get('/province', [AdminApi::class, 'province']);
+Route::get('/regency', [AdminApi::class, 'regency']);
+Route::get('/district', [AdminApi::class, 'district']);
+Route::get('/village', [AdminApi::class, 'village']);
+
+Route::get('/approve-destinasi-admin-desa/{id}', [AdminApi::class, 'approveDestinasiAdminDesa']);
+Route::get('/reject-destinasi-admin-desa/{id}', [AdminApi::class, 'rejectDestinasiAdminDesa']);

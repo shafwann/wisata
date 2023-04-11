@@ -54,7 +54,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="{{ url('admin-desa') }}" class="brand-link">
                 <img src="{{ url('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">Pesona Desa</span>
@@ -65,7 +65,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="info">
-                        <a href="#" class="d-block">Superadmin</a>
+                        <a class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="{{ url('superadmin') }}" class="nav-link bg-primary">
+                            <a href="{{ url('admin-desa') }}" class="nav-link bg-primary">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -96,7 +96,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-admin') }}" class="nav-link bg-success">
+                            <a href="{{ url('admin-desa/daftar-admin') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     Daftar Admin
@@ -104,18 +104,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-destinasi') }}" class="nav-link bg-warning">
-                                <i class="nav-icon fas fa-map-marked-alt"></i>
-                                <p>
-                                    Daftar Destinasi
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-menu') }}" class="nav-link bg-info">
+                            <a href="{{ url('admin-desa/destinasi') }}" class="nav-link">
                                 <i class="nav-icon fas fa-bars"></i>
                                 <p>
-                                    Daftar Menu
+                                    Destinasi
                                 </p>
                             </a>
                         </li>
@@ -140,15 +132,6 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        {{-- <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard</h1>
-                        </div><!-- /.col -->
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard v1</li>
-                            </ol>
-                        </div><!-- /.col --> --}}
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
@@ -162,15 +145,14 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3><?php echo $user['data']; ?></h3>
+                                    <h3></h3>
 
-                                    <p>User</p>
+                                    <p>Destinasi</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                                <a class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -178,15 +160,14 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3><?php echo $admin['data']; ?></h3>
+                                    <h3></h3>
 
                                     <p>Admin</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-stats-bars"></i>
                                 </div>
-                                <a href="{{ url('superadmin/daftar-admin') }}" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                                <a class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->

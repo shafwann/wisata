@@ -4,11 +4,15 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FormatApi;
+use App\Models\Destinasi;
+use App\Models\District;
 use App\Models\Kabupaten;
 use App\Models\Kategori;
 use App\Models\Province;
+use App\Models\Regency;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -122,34 +126,43 @@ class AdminApi extends Controller
         // return response()->json($role);
     }
 
-    public function tambahKabupaten(Request $data)
-    {
-        $add = Kabupaten::create([
-            'nama_kabupaten' => $data->nama_kabupaten,
-            'user_id' => $data->user_id,
-        ]);
-
-        return new FormatApi(true, 'Kabupaten Berhasil Ditambahkan', $add);
-    }
-
     public function tambahAdmin(Request $request)
     {
-        $add = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'province_id' => $request->province_id,
-            'regency_id' => $request->regency_id,
-            'district_id' => $request->district_id,
-            'village_id' => $request->village_id,
-            'password' => bcrypt($request->password),
-            'phone' => $request->phone,
-            'role_id' => $request->role_id,
-            'edit_admin_desa' => '1',
-            'approve_wisata' => '1',
-            'tambah_edit_admin_destinasi' => '0',
-            'mengajukan_destinasi' => '0',
-            'konfirmasi_tiket' => '0',
-        ]);
+        if ($request->role_id == '2') {
+            $add = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'province_id' => $request->province_id,
+                'regency_id' => $request->regency_id,
+                'district_id' => $request->district_id,
+                'village_id' => $request->village_id,
+                'password' => bcrypt($request->password),
+                'phone' => $request->phone,
+                'role_id' => $request->role_id,
+                'edit_admin_desa' => '1',
+                'approve_wisata' => '1',
+                'tambah_edit_admin_destinasi' => '0',
+                'mengajukan_destinasi' => '0',
+                'konfirmasi_tiket' => '0',
+            ]);
+        } elseif ($request->role_id == '3') {
+            $add = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'province_id' => $request->province_id,
+                'regency_id' => $request->regency_id,
+                'district_id' => $request->district_id,
+                'village_id' => $request->village_id,
+                'password' => bcrypt($request->password),
+                'phone' => $request->phone,
+                'role_id' => $request->role_id,
+                'edit_admin_desa' => '0',
+                'approve_wisata' => '1',
+                'tambah_edit_admin_destinasi' => '1',
+                'mengajukan_destinasi' => '1',
+                'konfirmasi_tiket' => '0',
+            ]);
+        }
 
 
         return new FormatApi(true, 'Admin Kabupaten Berhasil Ditambahkan', $request->province_id, $add);
@@ -308,5 +321,45 @@ class AdminApi extends Controller
     {
         $province = Province::all();
         return new FormatApi(true, 'List Provinsi', $province);
+    }
+
+    public function regency()
+    {
+        $regency = Regency::all();
+        return new FormatApi(true, 'List Kabupaten', $regency);
+    }
+
+    public function district()
+    {
+        $district = District::all();
+        return new FormatApi(true, 'List Kecamatan', $district);
+    }
+
+    public function village()
+    {
+        $village = Village::all();
+        return new FormatApi(true, 'List Desa', $village);
+    }
+
+    public function destinasi()
+    {
+        $destinasi = Destinasi::latest()->get();
+        return new FormatApi(true, 'List Destinasi', $destinasi);
+    }
+
+    public function approveDestinasiAdminDesa($id)
+    {
+        $destinasi = Destinasi::where('id', $id)->update([
+            'approve' => '1',
+        ]);
+        return new FormatApi(true, 'Approve', $destinasi);
+    }
+
+    public function rejectDestinasiAdminDesa($id)
+    {
+        $destinasi = Destinasi::where('id', $id)->update([
+            'approve' => '0',
+        ]);
+        return new FormatApi(true, 'Reject', $destinasi);
     }
 }

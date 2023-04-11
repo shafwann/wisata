@@ -33,7 +33,7 @@ class District extends Model
      *
      * @var array
      */
-    protected $hidden = [
+    protected $fillable = [
         'regency_id'
     ];
 

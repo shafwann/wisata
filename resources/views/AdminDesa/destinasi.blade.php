@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard {{ Auth::user()->name }}</title>
+    <title>AdminLTE 3 | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -54,10 +54,10 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="{{ url('admin-kabupaten') }}" class="brand-link">
-                <img src="{{ url('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
-                    style="opacity: .8">
-                <span class="brand-text font-weight-light">Pesona Desa</span>
+            <a href="index3.html" class="brand-link">
+                <img src="{{ url('AdminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">Nama Aplikasi</span>
             </a>
 
             <!-- Sidebar -->
@@ -65,9 +65,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="info">
-                        <a class="d-block">
-                            {{ Auth::user()->name }}
-                        </a>
+                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
@@ -90,7 +88,7 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="{{ url('admin-kabupaten') }}" class="nav-link bg-primary">
+                            <a href="{{ url('admin-desa') }}" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -98,7 +96,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin-kabupaten/daftar-admin') }}" class="nav-link">
+                            <a href="{{ url('admin-desa/daftar-admin') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     Daftar Admin
@@ -106,7 +104,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin-kabupaten/destinasi') }}" class="nav-link">
+                            <a href="{{ url('admin-desa/destinasi') }}" class="nav-link bg-primary">
                                 <i class="nav-icon fas fa-bars"></i>
                                 <p>
                                     Destinasi
@@ -134,62 +132,90 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
+                        <a href="{{ url('superadmin/daftar-admin/tambah') }}" class="btn btn-primary">Tambah
+                            Admin
+                        </a>
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
+
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <!-- Small boxes (Stat box) -->
-                    <div class="row">
-                        <div class="col-lg-4 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3></h3>
-
-                                    <p>Destinasi</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-bag"></i>
-                                </div>
-                                <a class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
+                    <div class="card">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Destinasi</th>
+                                        <th>Kategori</th>
+                                        {{-- <th>Provinsi</th>
+                                        <th>Kabupaten</th>
+                                        <th>Kecamatan</th>
+                                        <th>Desa</th> --}}
+                                        <th>HTM</th>
+                                        {{-- <th>Approve</th> --}}
+                                        <th>Tools</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($destinasi['data'] as $d)
+                                        @foreach ($kategori['data'] as $k)
+                                            {{-- @foreach ($provinsi['data'] as $p) --}}
+                                            {{-- @foreach ($kabupaten['data'] as $kab) --}}
+                                            {{-- @foreach ($kecamatan['data'] as $kec) --}}
+                                            {{-- @foreach ($desa['data'] as $des) --}}
+                                            @if ($d['village_id'] == Auth::user()->village_id)
+                                                @if ($d['kategori_id'] == $k['id'])
+                                                    {{-- @if ($d['province_id'] == $p['id']) --}}
+                                                    {{-- @if ($d['regency_id'] == $kab['id']) --}}
+                                                    {{-- @if ($d['district_id'] == $kec['id']) --}}
+                                                    {{-- @if ($d['village_id'] == $des['id']) --}}
+                                                    <tr>
+                                                        <td>{{ $d['nama_destinasi'] }}
+                                                        </td>
+                                                        <td>{{ $k['nama_kategori'] }}
+                                                        </td>
+                                                        {{-- <td>{{ $p['name'] }}</td> --}}
+                                                        {{-- <td>{{ $kab['name'] }}</td> --}}
+                                                        {{-- <td>{{ $kec['name'] }}</td> --}}
+                                                        {{-- <td>{{ $des['name'] }}</td> --}}
+                                                        <td>{{ $d['htm_destinasi'] }}
+                                                        </td>
+                                                        {{-- <td>{{ $d['approve'] }}</td> --}}
+                                                        {{-- @if ($d['approve'] == '1')
+                                                            <td><a href="{{ url('admin-desa/destinasi/reject/' . $d['id']) }}"
+                                                                    class="btn btn-outline-success">Approved</a></td>
+                                                        @else
+                                                            <td><a href="{{ url('admin-desa/destinasi/approve/' . $d['id']) }}"
+                                                                    class="btn btn-outline-danger">Rejected</a></td>
+                                                        @endif --}}
+                                                        <td>
+                                                            <a href="{{ url('admin-desa/destinasi/edit/' . $d['id']) }}"
+                                                                class="btn btn-primary">Edit</a>
+                                                            <a href="{{ url('admin-desa/destinasi/hapus/' . $d['id']) }}"
+                                                                class="btn btn-danger">Hapus</a>
+                                                        </td>
+                                                    </tr>
+                                                    {{-- @endif --}}
+                                                    {{-- @endif --}}
+                                                    {{-- @endif --}}
+                                                    {{-- @endif --}}
+                                                @endif
+                                            @endif
+                                            {{-- @endforeach --}}
+                                            {{-- @endforeach --}}
+                                            {{-- @endforeach --}}
+                                            {{-- @endforeach --}}
+                                        @endforeach
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <!-- ./col -->
-                        <div class="col-lg-4 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3></h3>
-
-                                    <p>Desa</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
-                                </div>
-                                <a class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-4 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3></h3>
-
-                                    <p>Admin Desa</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
-                                </div>
-                                <a class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
+                        <!-- /.card-body -->
                     </div>
-                    <!-- /.row -->
+                    <!-- /.card -->
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->

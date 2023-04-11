@@ -61,11 +61,6 @@ class User extends Authenticatable
         return $this->hasMany(SocialAccount::class);
     }
 
-    public function destinasi()
-    {
-        return $this->hasMany(Destinasi::class);
-    }
-
     public function role()
     {
         return $this->belongsTo(Role::class);

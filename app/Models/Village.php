@@ -32,7 +32,7 @@ class Village extends Model
      *
      * @var array
      */
-    protected $hidden = [
+    protected $fillable = [
         'district_id'
     ];
 

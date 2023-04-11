@@ -55,15 +55,6 @@ Route::middleware(['auth', 'superadmin'])->group(
         Route::get('/superadmin/daftar-admin/nonaktifkan-konfirmasi-tiket/{id}', [Admin::class, 'nonaktifKonfirmasiTiket']);
         Route::get('/superadmin/daftar-admin/aktifkan-konfirmasi-tiket/{id}', [Admin::class, 'aktifKonfirmasiTiket']);
 
-        // Kabupaten
-        // -- dihilankan karena sudah ada di IndoRegion
-        Route::get('/superadmin/daftar-kabupaten', [Admin::class, 'provinsi']);
-        Route::get('/superadmin/daftar-kabupaten/{id}', [Admin::class, 'kabupaten']);
-        Route::get('/superadmin/daftar-kecamatan/{id}', [Admin::class, 'kecamatan']);
-        Route::get('/superadmin/daftar-desa/{id}', [Admin::class, 'desa']);
-        Route::get('/superadmin/daftar-kabupaten/proses-tambah-kabupaten/{id}', [Admin::class, 'tambahKabupaten']);
-        Route::get('/superadmin/daftar-desa', [Admin::class, 'desa']);
-        // --
         Route::get('/superadmin/daftar-destinasi', [Admin::class, 'destinasi']);
         // Kategori
         Route::get('/superadmin/kategori', [Admin::class, 'kategori']);
@@ -76,9 +67,14 @@ Route::middleware(['auth', 'superadmin'])->group(
 );
 
 // Admin Kabupaten
-Route::get('/admin-kabupaten', [Admin::class, 'adminKabupaten']); // errrrror
+Route::get('/admin-kabupaten', [Admin::class, 'adminKabupaten']);
+Route::get('/admin-kabupaten/destinasi', [Admin::class, 'destinasiAdminKabupaten']);
 
 // Admin Desa
+Route::get('/admin-desa', [Admin::class, 'adminDesa']);
+Route::get('/admin-desa/destinasi', [Admin::class, 'destinasiAdminDesa']);
+Route::get('/admin-desa/destinasi/approve/{id}', [Admin::class, 'approveDestinasiAdminDesa']);
+Route::get('/admin-desa/destinasi/reject/{id}', [Admin::class, 'rejectDestinasiAdminDesa']);
 
 // Admin Destinasi
 
