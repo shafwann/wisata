@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('wahana', function (Blueprint $table) {
             $table->id();
             $table->string('nama_wahana');
-            $table->date('htm_wahana');
+            $table->string('foto_wahana');
+            $table->integer('htm_wahana');
+            $table->text('deskripsi_wahana');
             $table->unsignedBigInteger('destinasi_id');
             $table->timestamps();
 

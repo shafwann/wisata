@@ -11,7 +11,23 @@ use Illuminate\Support\Facades\Route;
 // User
 Route::get('/', [Home::class, 'index']);
 Route::get('/kabupaten', [Home::class, 'kabupaten']);
+Route::get('/kabupaten/{id}', [Home::class, 'detailKabupaten']);
 Route::get('/desa', [Home::class, 'desa']);
+Route::get('/desa/{id}', [Home::class, 'detailDesa']);
+Route::get('/destinasi/{id}', [Home::class, 'destinasi']);
+Route::middleware(['auth'])->group(
+    function () {
+        Route::get('/pesan/{id}', [Home::class, 'pesan']);
+        Route::post('/proses-pesan/{id_destinasi}/{id_user}', [Home::class, 'prosesPesan']);
+        Route::get('/daftar-pemesanan', [Home::class, 'daftarPemesanan']);
+        Route::get('generate-pdf', [Home::class, 'pdf']);
+        Route::middleware(['download-tiket'])->group(
+            function () {
+                Route::get('/pdf/{id}', [Home::class, 'downloadTiket']);
+            }
+        );
+    }
+);
 
 
 // Authenticate User
@@ -31,11 +47,12 @@ Route::post('/getDistrict', [Admin::class, 'getDistrict'])->name('getDistrict');
 Route::post('/getVillage', [Admin::class, 'getVillage'])->name('getVillage');
 
 
+// SuperAdmin
 Route::middleware(['auth', 'superadmin'])->group(
     function () {
-        // SuperAdmin
         Route::get('/superadmin', [Admin::class, 'superadmin']);
         Route::get('/superadmin/daftar-user', [Admin::class, 'user']);
+        Route::put('/superadmin/ganti-banner', [Admin::class, 'gantiBanner']);
         // Admin
         Route::get('/superadmin/daftar-admin', [Admin::class, 'admin']);
         Route::get('/superadmin/daftar-admin/tambah', [Admin::class, 'tambahAdmin']);
@@ -55,28 +72,59 @@ Route::middleware(['auth', 'superadmin'])->group(
         Route::get('/superadmin/daftar-admin/nonaktifkan-konfirmasi-tiket/{id}', [Admin::class, 'nonaktifKonfirmasiTiket']);
         Route::get('/superadmin/daftar-admin/aktifkan-konfirmasi-tiket/{id}', [Admin::class, 'aktifKonfirmasiTiket']);
 
-        Route::get('/superadmin/daftar-destinasi', [Admin::class, 'destinasi']);
         // Kategori
         Route::get('/superadmin/kategori', [Admin::class, 'kategori']);
-        Route::get('/superadmin/kategori/tambah', [Admin::class, 'tambahKategori']);
-        Route::post('/superadmin/kategori/proses-tambah', [Admin::class, 'prosesTambahKategori']);
-        Route::get('/superadmin/kategori/edit/{id}', [Admin::class, 'editKategori']);
-        Route::put('/superadmin/kategori/proses-edit/{id}', [Admin::class, 'prosesEditKategori']);
+        Route::post('/superadmin/tambah-kategori',[Admin::class, 'tambahKategori']);
+        Route::put('/superadmin/edit-kategori/{id}', [Admin::class, 'editKategori']);
         Route::get('/superadmin/kategori/proses-hapus/{id}', [Admin::class, 'prosesHapusKategori']);
     }
 );
 
 // Admin Kabupaten
-Route::get('/admin-kabupaten', [Admin::class, 'adminKabupaten']);
-Route::get('/admin-kabupaten/destinasi', [Admin::class, 'destinasiAdminKabupaten']);
+Route::middleware(['auth', 'admin-kabupaten'])->group(
+    function () {
+        Route::get('/admin-kabupaten', [Admin::class, 'adminKabupaten']);
+        Route::get('/admin-kabupaten/edit-profil/{id}', [Admin::class, 'editProfilAdminKabupaten']);
+        Route::put('/admin-kabupaten/proses-edit-profil/{id}', [Admin::class, 'prosesEditProfilAdminKabupaten']);
+        Route::get('/admin-kabupaten/daftar-admin', [Admin::class, 'daftarAdminKabupaten']);
+        Route::get('/admin-kabupaten/destinasi', [Admin::class, 'destinasiAdminKabupaten']);
+        Route::get('/admin-kabupaten/destinasi/approve/{id}', [Admin::class, 'approveDestinasiAdminKabupaten']);
+        Route::get('/admin-kabupaten/destinasi/reject/{id}', [Admin::class, 'rejectDestinasiAdminKabupaten']);
+    }
+);
 
 // Admin Desa
-Route::get('/admin-desa', [Admin::class, 'adminDesa']);
-Route::get('/admin-desa/destinasi', [Admin::class, 'destinasiAdminDesa']);
-Route::get('/admin-desa/destinasi/approve/{id}', [Admin::class, 'approveDestinasiAdminDesa']);
-Route::get('/admin-desa/destinasi/reject/{id}', [Admin::class, 'rejectDestinasiAdminDesa']);
+Route::middleware(['auth', 'admin-desa'])->group(
+    function () {
+        Route::get('/admin-desa', [Admin::class, 'adminDesa']);
+        Route::get('/admin-desa/daftar-admin', [Admin::class, 'daftarAdminDestinasi']);
+        Route::get('/admin-desa/daftar-admin/tambah', [Admin::class, 'tambahAdminDestinasi']);
+        Route::post('/admin-desa/daftar-admin/proses-tambah', [Admin::class, 'prosesTambahAdminDestinasi']);
+        Route::get('/admin-desa/daftar-admin/edit/{id}', [Admin::class, 'editAdminDestinasi']);
+        Route::put('/admin-desa/daftar-admin/proses-edit/{id}', [Admin::class, 'prosesEditAdminDestinasi']);
+        Route::get('/admin-desa/daftar-admin/hapus/{id}', [Admin::class, 'hapusAdminDestinasi']);
+        Route::get('/admin-desa/destinasi', [Admin::class, 'destinasiAdminDesa']);
+        Route::get('/admin-desa/destinasi/tambah', [Admin::class, 'tambahDestinasiAdminDesa']);
+        Route::post('/admin-desa/destinasi/proses-tambah', [Admin::class, 'prosesTambahDestinasiAdminDesa']);
+        Route::get('/admin-desa/destinasi/approve/{id}', [Admin::class, 'approveDestinasiAdminDesa']);
+        Route::get('/admin-desa/destinasi/reject/{id}', [Admin::class, 'rejectDestinasiAdminDesa']);
+        Route::get('/admin-desa/edit-profil', [Admin::class, 'editProfilAdminDesa']);
+        Route::put('/admin-desa/proses-edit-profil', [Admin::class, 'prosesEditProfilAdminDesa']);
+    }
+);
 
 // Admin Destinasi
+Route::middleware(['auth', 'admin-destinasi'])->group(
+    function () {
+        Route::get('/admin-destinasi', [Admin::class, 'adminDestinasi']);
+        Route::get('/admin-destinasi/konfirmasi-tiket', [Admin::class, 'konfirmasiTiket']);
+        Route::get('/admin-destinasi/konfirmasi-tiket/{id}', [Admin::class, 'konfirmasiTiketId']);
+        Route::get('admin-destinasi/wahana', [Admin::class, 'wahana']);
+        Route::get('admin-destinasi/wahana/tambah', [Admin::class, 'tambahWahana']);
+        Route::post('admin-destinasi/wahana/proses-tambah', [Admin::class, 'prosesTambahWahana']);
+    }
+);
+// wahana
 
 
 // Authenticate Admin

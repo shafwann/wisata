@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Dashboard {{ Auth::user()->name }}</title>
+    <link href="{{ url('assets/img/Logo.png') }}" rel="icon" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -54,7 +55,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="{{ url('superadmin') }}" class="brand-link">
                 <img src="{{ url('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">Pesona Desa</span>
@@ -145,7 +146,7 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3><?php echo $user['data']; ?></h3>
+                                    <h3>{{ $user['data'] }}</h3>
 
                                     <p>User</p>
                                 </div>
@@ -161,15 +162,16 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3><?php echo $admin['data']; ?></h3>
+                                    <h3>{{ $admin['data'] }}</h3>
 
                                     <p>Admin</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-stats-bars"></i>
                                 </div>
-                                <a href="{{ url('superadmin/daftar-admin') }}" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                                <a href="#" class="small-box-footer">More info
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                </a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -177,7 +179,7 @@
                             <!-- small box -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3></h3>
+                                    <h3>{{ $desa['data'] }}</h3>
 
                                     <p>Desa</p>
                                 </div>
@@ -185,7 +187,8 @@
                                     <i class="ion ion-person-add"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                                        class="fas fa-arrow-circle-right"></i>
+                                </a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -193,7 +196,7 @@
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3></h3>
+                                    <h3>{{ $destinasi['data'] }}</h3>
 
                                     <p>Destinasi</p>
                                 </div>
@@ -207,6 +210,85 @@
                         <!-- ./col -->
                     </div>
                     <!-- /.row -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h3>Banner</h3>
+                                <button type="button" class="btn btn-primary mb-2" data-toggle="modal"
+                                    data-target="#myModal">
+                                    Ganti Banner
+                                </button>
+                            </div>
+                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"
+                                style="height: 280px; position: relative; overflow: hidden; background-repeat: no-repeat; background-size: cover; background-position: center; z-index: 1;">
+                                <ol class="carousel-indicators">
+                                    @foreach ($banner as $key => $image)
+                                        <li data-target="#carouselExampleIndicators"
+                                            data-slide-to="{{ $key }}"
+                                            @if ($key == 0) class="active" @endif></li>
+                                    @endforeach
+                                </ol>
+                                <div class="carousel-inner">
+                                    @foreach ($banner as $key => $image)
+                                        <div class="carousel-item @if ($key == 0) active @endif">
+                                            <img src="{{ asset('images/' . $image) }}" class="d-block w-100"
+                                                alt="Image {{ $key }}">
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                    data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                    data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Header Modal -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Ganti Banner</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Body Modal -->
+                                <div class="modal-body">
+                                    <form action="{{ url('/superadmin/ganti-banner') }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group">
+                                            <label for="name">Gambar *</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="gambarBanner"
+                                                        name="gambar[]" multiple>
+                                                    <label class="custom-file-label" for="gambarBanner">Choose
+                                                        file</label>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Upload</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->

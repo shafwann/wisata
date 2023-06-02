@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\AdminApi;
 use App\Http\Controllers\api\AuthenticateApi;
+use App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/midtrans-callback', [Home::class, 'callback']);
 
 Route::post('/proses-login', [AuthenticateApi::class, 'prosesLogin']);
 Route::post('/proses-register', [AuthenticateApi::class, 'prosesRegister']);
@@ -43,14 +46,35 @@ Route::get('/aktif-mengajukan-destinasi/{id}', [AdminApi::class, 'aktifMengajuka
 Route::get('/nonaktif-konfirmasi-tiket/{id}', [AdminApi::class, 'nonaktifKonfirmasiTiket']);
 Route::get('/aktif-konfirmasi-tiket/{id}', [AdminApi::class, 'aktifKonfirmasiTiket']);
 
-Route::get('/user', [AdminApi::class, 'user']);
 Route::get('/admin', [AdminApi::class, 'admin']);
 Route::get('/admin-count', [AdminApi::class, 'adminCount']);
+Route::get('/user-count', [AdminApi::class, 'userCount']);
+Route::get('/kabupaten-count', [AdminApi::class, 'kabupatenCount']);
+Route::get('/desa-count', [AdminApi::class, 'desaCount']);
+Route::get('/destinasi-count', [AdminApi::class, 'destinasiCount']);
 
 Route::get('/admin-kabupaten', [AdminApi::class, 'adminKabupaten']);
 Route::get('/admin-kabupaten-spec/{id}', [AdminApi::class, 'adminKabupatenSpec']);
 
+Route::post('/tambah-profil-kabupaten', [AdminApi::class, 'tambahProfilKabupaten']);
+Route::get('/profil-kabupaten/{id}', [AdminApi::class, 'profilKabupaten']);
+Route::get('/profil-kabupaten-spesifik/{id}', [AdminApi::class, 'profilKabupatenSpesifik']);
+Route::get('/jumlah-destinasi/{id}', [AdminApi::class, 'jumlahDestinasiSpesifik']);
+Route::get('/jumlah-desa/{id}', [AdminApi::class, 'jumlahDesaSpesifik']);
+Route::get('/jumlah-admin-desa-spesifik/{id}', [AdminApi::class, 'jumlahAdminDesaSpesifik']);
+Route::put('/edit-profil-admin-kabupaten/{id}', [AdminApi::class, 'editProfilAdminKabupaten']);
+
+Route::delete('/hapus-profil-admin/{id}', [AdminApi::class, 'hapusProfilAdmin']);
+
+Route::get('/daftar-admin-dari-kabupaten/{id}', [AdminApi::class, 'daftarAdminDariKabupaten']);
+
+Route::get('/admin-destinasi', [AdminApi::class, 'adminDestinasi']);
 Route::get('/destinasi', [AdminApi::class, 'destinasi']);
+Route::post('/tambah-destinasi', [AdminApi::class, 'tambahDestinasi']);
+Route::post('/tambah-admin-destinasi', [AdminApi::class, 'tambahAdminDestinasi']);
+
+Route::get('/profil-kabupaten', [AdminApi::class, 'semuaProfilKabupaten']);
+Route::get('/profil-desa', [AdminApi::class, 'semuaProfilDesa']);
 
 Route::get('/kategori', [AdminApi::class, 'kategori']);
 Route::get('/kategori/{id}', [AdminApi::class, 'getKategori']);
@@ -58,11 +82,12 @@ Route::post('/tambah-kategori', [AdminApi::class, 'tambahKategori']);
 Route::delete('/hapus-kategori/{id}', [AdminApi::class, 'hapusKategori']);
 Route::put('/edit-kategori/{id}', [AdminApi::class, 'editKategori']);
 
+Route::get('/provinsi-spesifik/{id}', [AdminApi::class, 'provinsiSpesifik']);
 
 Route::get('/province', [AdminApi::class, 'province']);
 Route::get('/regency', [AdminApi::class, 'regency']);
 Route::get('/district', [AdminApi::class, 'district']);
 Route::get('/village', [AdminApi::class, 'village']);
 
-Route::get('/approve-destinasi-admin-desa/{id}', [AdminApi::class, 'approveDestinasiAdminDesa']);
-Route::get('/reject-destinasi-admin-desa/{id}', [AdminApi::class, 'rejectDestinasiAdminDesa']);
+Route::get('/approve-destinasi/{id}', [AdminApi::class, 'approveDestinasi']);
+Route::get('/reject-destinasi/{id}', [AdminApi::class, 'rejectDestinasi']);

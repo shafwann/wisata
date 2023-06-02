@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Kategori {{ Auth::user()->name }}</title>
+    <link href="{{ url('assets/img/Logo.png') }}" rel="icon" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -54,10 +55,10 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
-                <img src="{{ url('AdminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Nama Aplikasi</span>
+            <a href="{{ url('superadmin') }}" class="brand-link">
+                <img src="{{ url('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">Pesona Desa</span>
             </a>
 
             <!-- Sidebar -->
@@ -103,38 +104,6 @@
                                 </p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-user') }}" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    Daftar User
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-kabupaten') }}" class="nav-link">
-                                <i class="nav-icon fas fa-map-marked-alt"></i>
-                                <p>
-                                    Daftar Kabupaten
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-desa') }}" class="nav-link">
-                                <i class="nav-icon fas fa-map-marked-alt"></i>
-                                <p>
-                                    Daftar Desa
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-destinasi') }}" class="nav-link">
-                                <i class="nav-icon fas fa-map-marked-alt"></i>
-                                <p>
-                                    Daftar Destinasi
-                                </p>
-                            </a>
-                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ url('superadmin/kategori') }}" class="nav-link bg-primary">
                                 <i class="nav-icon fas fa-bars"></i>
@@ -163,9 +132,9 @@
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
-                    <div class="row mb-2">
-                        <a href="{{ url('superadmin/kategori/tambah') }}" class="btn btn-primary">Tambah Kategori</a>
-                    </div><!-- /.row -->
+                    <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#myModal">
+                        Tambah
+                    </button>
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
@@ -190,13 +159,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($kategori['data'] as $kategori)
+                                                    @foreach ($kategori['data'] as $kate)
                                                         <tr>
-                                                            <td>{{ $kategori['nama_kategori'] }}</td>
+                                                            <td>{{ $kate['nama_kategori'] }}</td>
                                                             <td>
-                                                                <a href="{{ url('superadmin/kategori/edit/' . $kategori['id']) }}"
-                                                                    class="btn btn-primary">Edit</a>
-                                                                <a href="{{ url('superadmin/kategori/proses-hapus/' . $kategori['id']) }}"
+                                                                <a class="edit-button btn btn-primary"
+                                                                    data-toggle="modal"
+                                                                    data-target="#myEdit{{ $kate['id'] }}"
+                                                                    data-id="{{ $kate['id'] }}">Edit</a>
+                                                                {{-- <a href="{{ url('superadmin/kategori/edit/' . $kate['id']) }}"
+                                                                    class="btn btn-primary">Edit</a> --}}
+                                                                <a href="{{ url('superadmin/kategori/proses-hapus/' . $kate['id']) }}"
                                                                     class="btn btn-danger">Delete</a>
                                                             </td>
                                                         </tr>
@@ -213,6 +186,71 @@
                         <!--/.col (left) -->
                     </div>
                     <!-- /.row -->
+
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Header Modal -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Tambah Kategori</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Body Modal -->
+                                <div class="modal-body">
+                                    <form action="{{ url('/superadmin/tambah-kategori') }}" method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label>Nama *</label>
+                                            <input type="text" class="form-control" name="nama_kategori"
+                                                placeholder="Masukkan Nama Kategori">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Icon Fontawesome (example: fa-download)</label>
+                                            <input type="text" class="form-control" name="icon"
+                                                placeholder="Nama Icon">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- EDIT --}}
+                    @foreach ($kategori['data'] as $kate2)
+                        <div class="modal fade" id="myEdit{{ $kate2['id'] }}" tabindex="-1" role="dialog"
+                            aria-labelledby="myEditLabel{{ $kate2['id'] }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Header Modal -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Kategori</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <!-- Body Modal -->
+                                    <div class="modal-body">
+                                        <form action="{{ url('/superadmin/edit-kategori', $kate2['id']) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="form-group">
+                                                <label>Nama *</label>
+                                                <input type="text" class="form-control" name="nama_kategori"
+                                                    placeholder="Masukkan Nama Kategori"
+                                                    value="{{ $kate2['nama_kategori'] }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Icon Fontawesome (example: fa-download)</label>
+                                                <input type="text" class="form-control" name="icon"
+                                                    placeholder="Nama Icon" value="{{ $kate2['icon'] }}">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->

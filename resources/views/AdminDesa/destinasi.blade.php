@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Destinasi {{ Auth::user()->name }}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -54,10 +54,10 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
-                <img src="{{ url('AdminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Nama Aplikasi</span>
+            <a href="{{ url('admin-desa') }}" class="brand-link">
+                <img src="{{ url('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">Pesona Desa</span>
             </a>
 
             <!-- Sidebar -->
@@ -65,7 +65,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="info">
-                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                        <a class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
@@ -132,8 +132,8 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        <a href="{{ url('superadmin/daftar-admin/tambah') }}" class="btn btn-primary">Tambah
-                            Admin
+                        <a href="{{ url('admin-desa/destinasi/tambah') }}" class="btn btn-primary">Tambah
+                            Destinasi
                         </a>
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -150,47 +150,30 @@
                                     <tr>
                                         <th>Nama Destinasi</th>
                                         <th>Kategori</th>
-                                        {{-- <th>Provinsi</th>
-                                        <th>Kabupaten</th>
-                                        <th>Kecamatan</th>
-                                        <th>Desa</th> --}}
                                         <th>HTM</th>
-                                        {{-- <th>Approve</th> --}}
+                                        <th>Approve</th>
                                         <th>Tools</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($destinasi['data'] as $d)
                                         @foreach ($kategori['data'] as $k)
-                                            {{-- @foreach ($provinsi['data'] as $p) --}}
-                                            {{-- @foreach ($kabupaten['data'] as $kab) --}}
-                                            {{-- @foreach ($kecamatan['data'] as $kec) --}}
-                                            {{-- @foreach ($desa['data'] as $des) --}}
                                             @if ($d['village_id'] == Auth::user()->village_id)
                                                 @if ($d['kategori_id'] == $k['id'])
-                                                    {{-- @if ($d['province_id'] == $p['id']) --}}
-                                                    {{-- @if ($d['regency_id'] == $kab['id']) --}}
-                                                    {{-- @if ($d['district_id'] == $kec['id']) --}}
-                                                    {{-- @if ($d['village_id'] == $des['id']) --}}
                                                     <tr>
                                                         <td>{{ $d['nama_destinasi'] }}
                                                         </td>
                                                         <td>{{ $k['nama_kategori'] }}
                                                         </td>
-                                                        {{-- <td>{{ $p['name'] }}</td> --}}
-                                                        {{-- <td>{{ $kab['name'] }}</td> --}}
-                                                        {{-- <td>{{ $kec['name'] }}</td> --}}
-                                                        {{-- <td>{{ $des['name'] }}</td> --}}
                                                         <td>{{ $d['htm_destinasi'] }}
                                                         </td>
-                                                        {{-- <td>{{ $d['approve'] }}</td> --}}
-                                                        {{-- @if ($d['approve'] == '1')
-                                                            <td><a href="{{ url('admin-desa/destinasi/reject/' . $d['id']) }}"
-                                                                    class="btn btn-outline-success">Approved</a></td>
-                                                        @else
-                                                            <td><a href="{{ url('admin-desa/destinasi/approve/' . $d['id']) }}"
-                                                                    class="btn btn-outline-danger">Rejected</a></td>
-                                                        @endif --}}
+                                                        <td>
+                                                            @if ($d['approve'] == '1')
+                                                                <span class="badge bg-success">Aktif</span>
+                                                            @else
+                                                                <span class="badge bg-danger">Tidak Aktif</span>
+                                                            @endif
+                                                        </td>
                                                         <td>
                                                             <a href="{{ url('admin-desa/destinasi/edit/' . $d['id']) }}"
                                                                 class="btn btn-primary">Edit</a>
@@ -198,16 +181,8 @@
                                                                 class="btn btn-danger">Hapus</a>
                                                         </td>
                                                     </tr>
-                                                    {{-- @endif --}}
-                                                    {{-- @endif --}}
-                                                    {{-- @endif --}}
-                                                    {{-- @endif --}}
                                                 @endif
                                             @endif
-                                            {{-- @endforeach --}}
-                                            {{-- @endforeach --}}
-                                            {{-- @endforeach --}}
-                                            {{-- @endforeach --}}
                                         @endforeach
                                     @endforeach
                                 </tbody>

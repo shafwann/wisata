@@ -18,9 +18,11 @@ class Kategori extends Seeder
         $kategori = [
             [
                 'nama_kategori' => 'Alam',
+                'icon' => 'fa-tree',
             ],
             [
                 'nama_kategori' => 'Buatan',
+                'icon' => 'fa-building',
             ],
         ];
 

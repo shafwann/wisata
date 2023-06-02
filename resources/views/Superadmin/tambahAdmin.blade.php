@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Admin {{ Auth::user()->name }}</title>
+    <link href="{{ url('assets/img/Logo.png') }}" rel="icon" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -56,10 +57,10 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
-                <img src="{{ url('AdminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Nama Aplikasi</span>
+            <a href="{{ url('superadmin') }}" class="brand-link">
+                <img src="{{ url('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">Pesona Desa</span>
             </a>
 
             <!-- Sidebar -->
@@ -161,7 +162,6 @@
                                         <option value="">Pilih Role</option>
                                         <option value="2">Admin Kabupaten</option>
                                         <option value="3">Admin Desa</option>
-                                        <option value="4">Admin Wisata</option>
                                     </select>
                                 </div>
                             </div>
@@ -191,7 +191,7 @@
                                 <div class="form-group row">
                                     <label for="province" class="col-sm-2 col-form-label">Provinsi</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="province_id" id="province-3" >
+                                        <select class="form-control" name="province_id" id="province-3">
                                             <option value="">Pilih Provinsi</option>
                                             @foreach ($data['data'] as $item)
                                                 <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>

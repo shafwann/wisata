@@ -18,6 +18,7 @@ return new class extends Migration
             function (Blueprint $table) {
                 $table->id();
                 $table->string('nama_kategori');
+                $table->string('icon')->nullable()->default('fa-tree');
                 $table->timestamps();
             }
         );

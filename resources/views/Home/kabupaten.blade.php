@@ -82,6 +82,7 @@
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ url('daftar-pemesanan') }}">Pesanan</a>
                                             <a class="dropdown-item" href="{{ url('logout') }}"
                                                 onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -120,68 +121,88 @@
         <div class="container" data-aos="fade-up">
 
             <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <div class="kabupaten position-relative">
-                        <a href="#">
-                            <div class="single_review_slider">
-                                <div class="place_review">
-                                    <img src="assets/img/kabupaten/kabMadiun.png" alt="" />
-                                    <h4>Kabupaten Madiun</h4>
-                                    <span>4 Desa Wisata</span>
+                @foreach ($kabupaten['data'] as $kab)
+                    <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
+                        <div class="kabupaten position-relative">
+                            <a href="{{ url('kabupaten/' . $kab['id']) }}">
+                                <div class="single_review_slider">
+                                    <div class="place_review">
+                                        <img src="{{ isset($kab['foto_kabupaten']) ? asset('images/' . $kab['foto_kabupaten']) : asset('images/kabupaten_default.jpg') }}"
+                                            alt="" />
+                                        <h4>{{ $kab['nama_kabupaten'] }}</h4>
+                                        @php
+                                            $count = 0;
+                                        @endphp
+                                        @foreach ($desa['data'] as $des2)
+                                            @if ($des2['regency_id'] == $kab['regency_id'])
+                                                @php
+                                                    $count++;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        <span>{{ $count }} Desa Wisata</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <!-- End Kategori 1 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <div class="kabupaten position-relative">
-                        <a href="#">
-                            <div class="single_review_slider">
-                                <div class="place_review">
-                                    <img src="assets/img/kabupaten/kabPekalongan.png" alt="" />
-                                    <h4>Kabupaten Pekalongan</h4>
-                                    <span>4 Desa Wisata</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <!-- End Kategori 2 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <div class="kabupaten position-relative">
-                        <a href="#">
-                            <div class="single_review_slider">
-                                <div class="place_review">
-                                    <img src="assets/img/kabupaten/kotaSemarang.png" alt="" />
-                                    <h4>Kota Semarang</h4>
-                                    <span>5 Desa Wisata</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <!-- End Kategori 3 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <div class="kabupaten position-relative">
-                        <a href="#">
-                            <div class="single_review_slider">
-                                <div class="place_review">
-                                    <img src="assets/img/kabupaten/kotaSurakarta.png" alt="" />
-                                    <h4>Kota Surakarta</h4>
-                                    <span>5 Desa Wisata</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
     <!--::Kategori End::-->
+
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-sm-6 col-md-7">
+                    <div class="single-footer-widget">
+                        <h4 id="JudulFooter">Pesona Desa</h4>
+                        <p>
+                            Cras fermentum odio eu feugiat lide par naso tierra. Justo eget
+                            nada terra videa magna derita valies darta donna mare fermentum
+                            iaculis eu non diam phasellus.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="single-footer-widget footer_icon">
+                        <h4>Contact Us</h4>
+                        <p>
+                            Kampus Mesen UNS, Jl. Jend. Urip Sumoharjo No.116,
+                            Purwodiningratan, Kec. Jebres, Kota Surakarta, Jawa Tengah 57129
+                            <br />(0271) 663450
+                        </p>
+                        <span>kontak@d3ti.vokasi.uns.ac.id</span>
+                        <div class="social-icons">
+                            <a href="#"><i class="ti-facebook"></i></a>
+                            <a href="#"><i class="ti-twitter-alt"></i></a>
+                            <a href="#"><i class="ti-pinterest"></i></a>
+                            <a href="#"><i class="ti-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="copyright_part_text text-center">
+                        <p class="footer-text m-0">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>
+                            All rights reserved
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer part end-->
 
     <!-- jquery plugins here-->
     <script src="{{ url('assets/js/jquery-1.12.1.min.js') }}"></script>

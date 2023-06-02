@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('nama_destinasi');
             $table->unsignedBigInteger('kategori_id');
             $table->string('foto_destinasi')->nullable();
-            $table->char('province_id', 2);
-            $table->char('regency_id', 4);
-            $table->char('district_id', 7);
-            $table->char('village_id', 10);
+            $table->char('province_id', 2)->nullable();
+            $table->char('regency_id', 4)->nullable();
+            $table->char('district_id', 7)->nullable();
+            $table->char('village_id', 10)->nullable();
             $table->text('deskripsi_destinasi');
             $table->string('alamat_destinasi');
-            $table->string('htm_destinasi');
+            $table->integer('htm_destinasi');
             $table->enum('approve', [0, 1]);
             $table->timestamps();
 

@@ -82,6 +82,7 @@
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ url('daftar-pemesanan') }}">Pesanan</a>
                                             <a class="dropdown-item" href="{{ url('logout') }}"
                                                 onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -117,172 +118,76 @@
 
     <section id="kategori" class="kategori">
         <div class="container" data-aos="fade-up">
-
             <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
+                @foreach ($desa as $d)
+                    <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
+                        <a href="{{ url('desa/' . $d['id']) }}">
+                            <div class="service-item position-relative">
+                                <div class="icon">
+                                    <i class="fas fa-map-signs"></i>
+                                </div>
+                                <h3>{{ $d['nama_desa'] }}</h3>
+                                <p>
+                                    {{ $d['deskripsi_desa'] }}
+                                </p>
                             </div>
-                            <h3>Desa Wisata Kare</h3>
-                            <p>
-                                Provident nihil minus qui consequatur non omnis maiores. Eos
-                                accusantium minus dolores iure perferendis tempore et
-                                consequatur.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 1 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Kepel</h3>
-                            <p>
-                                Ut autem aut autem non a. Sint sint sit facilis nam iusto
-                                sint. Libero corrupti neque eum hic non ut nesciunt dolorem.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 2 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Brumbun</h3>
-                            <p>
-                                Ut excepturi voluptatem nisi sed. Quidem fuga consequatur.
-                                Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 3 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Bodag</h3>
-                            <p>
-                                Ut excepturi voluptatem nisi sed. Quidem fuga consequatur.
-                                Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 4 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Curug Madu Resmi</h3>
-                            <p>
-                                Ut excepturi voluptatem nisi sed. Quidem fuga consequatur.
-                                Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 5 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Kayupuring</h3>
-                            <p>
-                                Ut excepturi voluptatem nisi sed. Quidem fuga consequatur.
-                                Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 6 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Lolong</h3>
-                            <p>
-                                Ut excepturi voluptatem nisi sed. Quidem fuga consequatur.
-                                Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 7 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Pakumbulan</h3>
-                            <p>
-                                Ut excepturi voluptatem nisi sed. Quidem fuga consequatur.
-                                Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 8 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Agro Wates</h3>
-                            <p>
-                                Ut excepturi voluptatem nisi sed. Quidem fuga consequatur.
-                                Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 9 -->
-
-                <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
-                    <a href="#">
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="fas fa-map-signs"></i>
-                            </div>
-                            <h3>Desa Wisata Bejalen</h3>
-                            <p>
-                                Ut excepturi voluptatem nisi sed. Quidem fuga consequatur.
-                                Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Kategori 10 -->
+                        </a>
+                    </div>
+                @endforeach
             </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            {{ $desa->links() }}
         </div>
     </section>
 
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-sm-6 col-md-7">
+                    <div class="single-footer-widget">
+                        <h4 id="JudulFooter">Pesona Desa</h4>
+                        <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
+                            valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="single-footer-widget footer_icon">
+                        <h4>Contact Us</h4>
+                        <p>Kampus Mesen UNS, Jl. Jend. Urip Sumoharjo No.116, Purwodiningratan, Kec. Jebres, Kota
+                            Surakarta, Jawa Tengah 57129
+                            <br>(0271) 663450
+                        </p>
+                        <span>kontak@d3ti.vokasi.uns.ac.id</span>
+                        <div class="social-icons">
+                            <a href="#"><i class="ti-facebook"></i></a>
+                            <a href="#"><i class="ti-twitter-alt"></i></a>
+                            <a href="#"><i class="ti-pinterest"></i></a>
+                            <a href="#"><i class="ti-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="copyright_part_text text-center">
+                        <p class="footer-text m-0">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script> All rights reserved
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer part end-->
 
     <!-- jquery plugins here-->
     <script src="{{ url('assets/js/jquery-1.12.1.min.js') }}"></script>

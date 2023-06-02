@@ -39,4 +39,9 @@ class Destinasi extends Model
     {
         return $this->belongsTo(Village::class, 'village_id', 'id');
     }
+
+    public function tiket()
+    {
+        return $this->hasMany(Tiket::class, 'destinasi_id', 'id');
+    }
 }

@@ -267,7 +267,7 @@ class Authenticate extends Controller
             } elseif (Auth::user()->role_id == '3') {
                 return redirect('/admin-desa');
             } elseif (Auth::user()->role_id == '4') {
-                return redirect('/admin-wisata');
+                return redirect('/admin-destinasi');
             } else {
                 return redirect('/login-admin');
             }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Dashboard {{ Auth::user()->name }}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -145,7 +145,7 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3></h3>
+                                    <h3>{{ $jumlahDestinasi }}</h3>
 
                                     <p>Destinasi</p>
                                 </div>
@@ -160,7 +160,7 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3></h3>
+                                    <h3>{{ $jumlahAdmin }}</h3>
 
                                     <p>Admin</p>
                                 </div>
@@ -171,40 +171,39 @@
                             </div>
                         </div>
                         <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-warning">
-                                <div class="inner">
-                                    <h3>44</h3>
-
-                                    <p>Desa</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-person-add"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>65</h3>
-
-                                    <p>Destinasi</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
                     </div>
                     <!-- /.row -->
+                    <div class="row">
+                        <div class="col-md-5">
+                            <!-- Profile Image -->
+                            <div class="card card-primary card-outline">
+                                <div class="card-body box-profile">
+                                    <div class="text-center">
+                                        <img class="profile-user-img img-fluid img-square" alt="Logo Kabupaten"
+                                            src="{{ isset($profil['foto_desa']) ? asset('images/' . $profil['foto_desa']) : asset('images/kabupaten_default.jpg') }}"
+                                            style="height: 250px; width: 250px;">
+                                    </div>
+
+                                    <h3 class="profile-username text-center">{{ $profil['nama_desa'] }}
+                                    </h3>
+
+                                    <div class="text-muted text-center">
+                                        {{ $user['email'] }}<br>
+                                        {{ $user['phone'] }}<br>
+                                        {{ $profil['alamat_desa'] }}<br>
+                                        {!! $profil['deskripsi_desa'] !!}
+                                    </div>
+
+                                    <a href="{{ url('/admin-desa/edit-profil') }}"
+                                        class="btn btn-primary btn-block"><b>Edit</b></a>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <div class="col-md-7">
+                        </div>
+                    </div>
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->

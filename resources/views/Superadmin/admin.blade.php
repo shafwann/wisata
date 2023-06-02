@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Admin {{ Auth::user()->name }}</title>
+    <link href="{{ url('assets/img/Logo.png') }}" rel="icon" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -54,10 +55,10 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
-                <img src="{{ url('AdminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Nama Aplikasi</span>
+            <a href="{{ url('superadmin') }}" class="brand-link">
+                <img src="{{ url('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">Pesona Desa</span>
             </a>
 
             <!-- Sidebar -->
@@ -103,38 +104,6 @@
                                 </p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-user') }}" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    Daftar User
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-kabupaten') }}" class="nav-link">
-                                <i class="nav-icon fas fa-map-marked-alt"></i>
-                                <p>
-                                    Daftar Kabupaten
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-desa') }}" class="nav-link">
-                                <i class="nav-icon fas fa-map-marked-alt"></i>
-                                <p>
-                                    Daftar Desa
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('superadmin/daftar-destinasi') }}" class="nav-link">
-                                <i class="nav-icon fas fa-map-marked-alt"></i>
-                                <p>
-                                    Daftar Destinasi
-                                </p>
-                            </a>
-                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ url('superadmin/kategori') }}" class="nav-link">
                                 <i class="nav-icon fas fa-bars"></i>
@@ -185,7 +154,7 @@
                                         <th>Email</th>
                                         <th>Nomor Telepon</th>
                                         <th>Edit Admin Desa</th>
-                                        <th>Approve Wisata</th>
+                                        <th>Approve Destinasi</th>
                                         <th>Tambah & Edit<br>Admin Destinasi</th>
                                         <th>Mengajukan<br>Destinasi</th>
                                         <th>Konfirmasi Tiket</th>
@@ -193,7 +162,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($admin['data'] as $item)
+                                    @foreach ($admin as $item)
                                         @foreach ($role['data'] as $item2)
                                             @if ($item['role_id'] == $item2['id'])
                                                 <tr>
@@ -237,8 +206,8 @@
                                                                 class="btn btn-outline-danger">Nonaktif</a></td>
                                                     @endif
                                                     <td>
-                                                        <a href="{{ url('superadmin/daftar-admin/edit/' . $item['id']) }}"
-                                                            class="btn btn-primary">Edit</a>
+                                                        {{-- <a href="{{ url('superadmin/daftar-admin/edit/' . $item['id']) }}"
+                                                            class="btn btn-primary">Edit</a> --}}
                                                         <a href="{{ url('superadmin/daftar-admin/hapus/' . $item['id']) }}"
                                                             class="btn btn-danger">Hapus</a>
                                                     </td>
@@ -250,6 +219,9 @@
                             </table>
                         </div>
                         <!-- /.card-body -->
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        {{ $admin->links() }}
                     </div>
                     <!-- /.card -->
                 </div><!-- /.container-fluid -->

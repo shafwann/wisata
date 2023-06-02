@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Destinasi {{ Auth::user()->name }}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -54,10 +54,10 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
-                <img src="{{ url('AdminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Nama Aplikasi</span>
+            <a href="{{ url('admin-kabupaten') }}" class="brand-link">
+                <img src="{{ url('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">Pesona Desa</span>
             </a>
 
             <!-- Sidebar -->
@@ -131,11 +131,6 @@
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
-                    <div class="row mb-2">
-                        <a href="{{ url('superadmin/daftar-admin/tambah') }}" class="btn btn-primary">Tambah
-                            Admin
-                        </a>
-                    </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
@@ -186,18 +181,18 @@
                                                                     </td>
                                                                     {{-- <td>{{ $d['approve'] }}</td> --}}
                                                                     @if ($d['approve'] == '1')
-                                                                        <td><a href="{{ url('admin-desa/destinasi/reject/' . $d['id']) }}"
+                                                                        <td><a href="{{ url('admin-kabupaten/destinasi/reject/' . $d['id']) }}"
                                                                                 class="btn btn-outline-success">Approved</a>
                                                                         </td>
                                                                     @else
-                                                                        <td><a href="{{ url('admin-desa/destinasi/approve/' . $d['id']) }}"
+                                                                        <td><a href="{{ url('admin-kabupaten/destinasi/approve/' . $d['id']) }}"
                                                                                 class="btn btn-outline-danger">Rejected</a>
                                                                         </td>
                                                                     @endif
                                                                     <td>
-                                                                        <a href="{{ url('admin-desa/destinasi/edit/' . $d['id']) }}"
+                                                                        <a href="{{ url('admin-kabupaten/destinasi/edit/' . $d['id']) }}"
                                                                             class="btn btn-primary">Edit</a>
-                                                                        <a href="{{ url('admin-desa/destinasi/hapus/' . $d['id']) }}"
+                                                                        <a href="{{ url('admin-kabupaten/destinasi/hapus/' . $d['id']) }}"
                                                                             class="btn btn-danger">Hapus</a>
                                                                     </td>
                                                                 </tr>

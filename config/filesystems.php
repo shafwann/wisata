@@ -56,6 +56,13 @@ return [
             'throw' => false,
         ],
 
+        'ngrok' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'), // sesuaikan jika diperlukan
+            'url' => env('NGROK_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*

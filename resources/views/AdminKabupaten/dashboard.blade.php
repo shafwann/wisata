@@ -147,7 +147,7 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3></h3>
+                                    <h3>{{ $jumlahDestinasi['data'] }}</h3>
 
                                     <p>Destinasi</p>
                                 </div>
@@ -162,7 +162,7 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3></h3>
+                                    <h3>{{ $jumlahDesa['data'] }}</h3>
 
                                     <p>Desa</p>
                                 </div>
@@ -177,7 +177,7 @@
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3></h3>
+                                    <h3>{{ $jumlahAdmin['data'] }}</h3>
 
                                     <p>Admin Desa</p>
                                 </div>
@@ -190,6 +190,36 @@
                         <!-- ./col -->
                     </div>
                     <!-- /.row -->
+                    <div class="row">
+                        <div class="col-md-5">
+                            <!-- Profile Image -->
+                            <div class="card card-primary card-outline">
+                                <div class="card-body box-profile">
+                                    <div class="text-center">
+                                        <img class="profile-user-img img-fluid img-square" alt="Logo Kabupaten"
+                                            src="{{ isset($profil['data']['foto_kabupaten']) ? asset('images/' . $profil['data']['foto_kabupaten']) : asset('images/kabupaten_default.jpg') }}"
+                                            style="height: 250px; width: 250px;">
+                                    </div>
+
+                                    <h3 class="profile-username text-center">{{ $profil['data']['nama_kabupaten'] }}
+                                    </h3>
+
+                                    <p class="text-muted text-center">
+                                        @foreach ($provinsi['data'] as $provinsi)
+                                            {{ $provinsi['name'] }}
+                                        @endforeach
+                                    </p>
+
+                                    <a href="{{ url('/admin-kabupaten/edit-profil/' . Auth::user()->id) }}"
+                                        class="btn btn-primary btn-block"><b>Edit</b></a>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <div class="col-md-7">
+                        </div>
+                    </div>
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->

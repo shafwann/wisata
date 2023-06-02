@@ -55,6 +55,10 @@ form input{
     background-color: #24819E;
 }
 
+#buttonLogin:hover{
+    background-color: #195669;
+}
+
 #buttonGoogle{
     font-size: 1rem;
     margin-top: 1.8rem;
@@ -98,4 +102,20 @@ input:focus{
     text-align: left;
     margin-left: 22px;
     margin-top: 1.4rem;
+}
+
+.wrapper .back{
+    text-align: left;
+    margin-left: 5px;
+}
+.wrapper .back .btn_back{
+    color: #696969;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 20px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    background-color: #fff;
+    border: none;
+    margin-bottom: 25px;
 }

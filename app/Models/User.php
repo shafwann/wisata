@@ -27,6 +27,7 @@ class User extends Authenticatable
         'regency_id',
         'district_id',
         'village_id',
+        'destinasi_id',
         'edit_admin_desa',
         'approve_wisata',
         'tambah_edit_admin_destinasi',
@@ -79,5 +80,10 @@ class User extends Authenticatable
     public function district()
     {
         return $this->belongsTo(District::class);
+    }
+
+    public function profilKabupaten()
+    {
+        return $this->hasMany(ProfilKabupaten::class);
     }
 }

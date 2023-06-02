@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\FormatApi;
 use App\Models\Destinasi;
 use App\Models\District;
-use App\Models\Kabupaten;
 use App\Models\Kategori;
+use App\Models\ProfilDesa;
+use App\Models\ProfilKabupaten;
 use App\Models\Province;
 use App\Models\Regency;
 use App\Models\Role;
@@ -94,7 +95,7 @@ class AdminApi extends Controller
         //
     }
 
-    public function user()
+    public function userCount()
     {
         $user = User::latest()->where('role_id', '5')->get();
         $total = count($user);
@@ -116,14 +117,31 @@ class AdminApi extends Controller
         return new FormatApi(true, 'List User', $total);
     }
 
+    public function kabupatenCount()
+    {
+        $kabupaten = ProfilKabupaten::latest()->get();
+        $total = count($kabupaten);
+        return new FormatApi(true, 'List Profil Kabupaten', $total);
+    }
+
+    public function desaCount()
+    {
+        $desa = ProfilDesa::latest()->get();
+        $total = count($desa);
+        return new FormatApi(true, 'List Profil Desa', $total);
+    }
+
+    public function destinasiCount()
+    {
+        $destinasi = Destinasi::latest()->get();
+        $total = count($destinasi);
+        return new FormatApi(true, 'List Destinasi', $total);
+    }
+
     public function role()
     {
         $role = Role::whereIn('id', [2, 3, 4])->latest()->get();
         return new FormatApi(true, 'List Role', $role);
-
-        // $user = Auth::user();
-        // $role = $user->role;
-        // return response()->json($role);
     }
 
     public function tambahAdmin(Request $request)
@@ -164,12 +182,61 @@ class AdminApi extends Controller
             ]);
         }
 
+        return new FormatApi(true, 'Admin Kabupaten Berhasil Ditambahkan', $add);
+    }
 
-        return new FormatApi(true, 'Admin Kabupaten Berhasil Ditambahkan', $request->province_id, $add);
+    public function tambahProfilKabupaten(Request $request)
+    {
+        $add = ProfilKabupaten::create([
+            'nama_kabupaten' => $request->nama_kabupaten,
+            'admin_id' => $request->admin_id,
+            'province_id' => $request->province_id,
+            'regency_id' => $request->regency_id,
+        ]);
+
+        return new FormatApi(true, 'Profil Kabupaten Berhasil Ditambahkan', $add);
+    }
+
+    public function profilKabupaten($id)
+    {
+        $profil = ProfilKabupaten::where('admin_id', $id)->first();
+        return new FormatApi(true, 'Profil Kabupaten', $profil);
+    }
+
+    public function profilKabupatenSpesifik($id)
+    {
+        $profil = ProfilKabupaten::where('id', $id)->get();
+        return new FormatApi(true, 'Profil Kabupaten', $profil);
+    }
+
+    public function editProfilAdminKabupaten(Request $request, $id)
+    {
+        $edit = ProfilKabupaten::where('admin_id', $id)->update([
+            'nama_kabupaten' => $request->nama_kabupaten,
+            'foto_kabupaten' => $request->foto_kabupaten,
+        ]);
+
+        return new FormatApi(true, 'Profil Kabupaten Berhasil Diubah', $edit);
+    }
+
+    public function daftarAdminDariKabupaten($id)
+    {
+        $role_id = ['3', '4'];
+        $admin = User::where('role_id', $role_id)->where('regency_id', $id)->get();
+        return new FormatApi(true, 'List Admin Dari Kabupaten', $admin);
     }
 
     public function hapusAdmin($id)
     {
+        $user = User::where('id', $id)->first();
+        if ($user->role_id == '2') {
+            $hapus = ProfilKabupaten::where('admin_id', $id)->delete();
+        } elseif ($user->role_id == '3') {
+            $hapus = ProfilDesa::where('admin_id', $id)->delete();
+        } else {
+            $hapus = 'Gagal';
+        }
+
         $hapus = User::where('id', $id)->delete();
 
         return new FormatApi(true, 'Admin Berhasil Dihapus', $hapus);
@@ -265,20 +332,6 @@ class AdminApi extends Controller
         return new FormatApi(true, 'Konfirmasi Tiket Berhasil Diaktifkan', $edit);
     }
 
-    public function adminKabupaten()
-    {
-        $user = Auth::getUser();
-
-        return new FormatApi(true, 'List Admin Kabupaten', $user);
-    }
-
-    public function adminKabupatenSpec($id)
-    {
-        $user = User::where('id', $id)->get();
-
-        return new FormatApi(true, 'List Admin Kabupaten', $user);
-    }
-
     public function kategori()
     {
         $kategori = Kategori::latest()->get();
@@ -297,7 +350,6 @@ class AdminApi extends Controller
     public function getKategori($id)
     {
         $kategori = Kategori::find($id);
-        // $kategori = Kategori::where('id', $id)->first();
         return new FormatApi(true, 'List Kategori', $kategori);
     }
 
@@ -305,6 +357,7 @@ class AdminApi extends Controller
     {
         $edit = Kategori::where('id', $id)->update([
             'nama_kategori' => $request->nama_kategori,
+            'icon' => $request->icon,
         ]);
 
         return new FormatApi(true, 'Kategori Berhasil Diubah', $edit);
@@ -341,13 +394,88 @@ class AdminApi extends Controller
         return new FormatApi(true, 'List Desa', $village);
     }
 
+    public function adminDestinasi()
+    {
+        $user = User::where('role_id', 4)->get();
+
+        return new FormatApi(true, 'List Admin Destinasi', $user);
+    }
+
     public function destinasi()
     {
         $destinasi = Destinasi::latest()->get();
         return new FormatApi(true, 'List Destinasi', $destinasi);
     }
 
-    public function approveDestinasiAdminDesa($id)
+    public function jumlahDestinasiSpesifik($id)
+    {
+        $destinasi = Destinasi::where('regency_id', $id)->get();
+        $total = count($destinasi);
+        return new FormatApi(true, 'Jumlah Destinasi', $total);
+    }
+
+    public function jumlahDesaSpesifik($id)
+    {
+        $desa = ProfilDesa::where('regency_id', $id)->get();
+        $total = count($desa);
+        return new FormatApi(true, 'Jumlah Desa', $total);
+    }
+
+    public function jumlahAdminDesaSpesifik($id)
+    {
+        $desa = User::where('role_id', 3)->where('regency_id', $id)->get();
+        $total = count($desa);
+        return new FormatApi(true, 'Jumlah Admin Desa', $total);
+    }
+
+    public function provinsiSpesifik($id)
+    {
+        $province = Province::where('id', $id)->get();
+        return new FormatApi(true, 'Provinsi Admin', $province);
+    }
+
+    public function tambahDestinasi(Request $request)
+    {
+        $add = Destinasi::create([
+            'nama_destinasi' => $request->nama_destinasi,
+            'kategori_id' => $request->kategori_id,
+            'deskripsi_destinasi' => $request->deskripsi_destinasi,
+            'alamat_destinasi' => $request->alamat_destinasi,
+            'htm_destinasi' => $request->htm_destinasi,
+            'foto_destinasi' => $request->foto_destinasi,
+            'province_id' => $request->province_id,
+            'regency_id' => $request->regency_id,
+            'district_id' => $request->district_id,
+            'village_id' => $request->village_id,
+        ]);
+
+        return new FormatApi(true, 'Destinasi Berhasil Ditambahkan', $add);
+    }
+
+    public function tambahAdminDestinasi(Request $request)
+    {
+        $add = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'province_id' => $request->province_id,
+            'regency_id' => $request->regency_id,
+            'district_id' => $request->district_id,
+            'village_id' => $request->village_id,
+            'destinasi_id' => $request->destinasi_id,
+            'phone' => $request->phone,
+            'role_id' => '4',
+            'edit_admin_desa' => '0',
+            'approve_wisata' => '0',
+            'tambah_edit_admin_destinasi' => '0',
+            'mengajukan_destinasi' => '0',
+            'konfirmasi_tiket' => '1',
+        ]);
+
+        return new FormatApi(true, 'Admin Destinasi Berhasil Ditambahkan', $add);
+    }
+
+    public function approveDestinasi($id)
     {
         $destinasi = Destinasi::where('id', $id)->update([
             'approve' => '1',
@@ -355,11 +483,24 @@ class AdminApi extends Controller
         return new FormatApi(true, 'Approve', $destinasi);
     }
 
-    public function rejectDestinasiAdminDesa($id)
+    public function rejectDestinasi($id)
     {
         $destinasi = Destinasi::where('id', $id)->update([
             'approve' => '0',
         ]);
         return new FormatApi(true, 'Reject', $destinasi);
+    }
+
+    // User
+    public function semuaProfilKabupaten()
+    {
+        $kabupaten = ProfilKabupaten::all();
+        return new FormatApi(true, 'List Profil Kabupaten', $kabupaten);
+    }
+
+    public function semuaProfilDesa()
+    {
+        $desa = ProfilDesa::all();
+        return new FormatApi(true, 'List Profil Desa', $desa);
     }
 }
